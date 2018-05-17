@@ -61,7 +61,7 @@ def firefly_algorithm(swarm_size = 3, min_values = [-5,-5], max_values = [5,5], 
     population = initial_fireflies(swarm_size = swarm_size , min_values = min_values, max_values = max_values)
     count = 0
     while (count <= generations):
-        print("Gereration: ", count, " of ", generations)
+        print("Generation: ", count, " of ", generations)
         for i in range (0, swarm_size):
             for j in range(0, swarm_size):
                 firefly_i = population.iloc[i, 0:population.shape[1]-1].copy(deep = True)
