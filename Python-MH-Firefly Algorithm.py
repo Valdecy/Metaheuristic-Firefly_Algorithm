@@ -51,7 +51,7 @@ def ligth_value(light_0, x, y, gama = 1):
 # Function: Update Position
 def update_position(position, x, y, alpha_0 = 0.2, beta_0 = 1, gama = 1, firefly = 0):
     for j in range(0, len(x)):
-        epson    = int.from_bytes(os.urandom(8), byteorder = "big") / ((1 << 64) - 1) - (1/2)
+        epson = int.from_bytes(os.urandom(8), byteorder = "big") / ((1 << 64) - 1) - (1/2)
         position.iloc[firefly, j] = x.iloc[j] + beta_value(x, y, gama = gama, beta_0 = beta_0)*(y.iloc[j] - x.iloc[j]) + alpha_0*epson
     position.iloc[firefly, -1] = target_function(position.iloc[firefly, 0:position.shape[1]-1])
     return position
