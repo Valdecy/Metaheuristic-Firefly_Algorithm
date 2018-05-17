@@ -72,7 +72,7 @@ def firefly_algorithm(swarm_size = 3, min_values = [-5,-5], max_values = [5,5], 
                    population = update_position(population, firefly_i, firefly_j, alpha_0 = alpha_0, beta_0 = beta_0, gama = gama, firefly = i)
         count = count + 1
     #population = population.sort_values(by=['Ligth_0'])
-    best_firefly = population.iloc[population['Ligth_0'].idxmin(),:].copy(deep = True)
+    best_firefly = population.iloc[population['Ligth_0'].idxmin(),:]
     return best_firefly
 
 ######################## Part 1 - Usage ####################################
