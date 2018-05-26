@@ -49,16 +49,20 @@ def ligth_value(light_0, x, y, gama = 1):
     return light
 
 # Function: Update Position
-def update_position(position, x, y, alpha_0 = 0.2, beta_0 = 1, gama = 1, firefly = 0):
+def update_position(position, x, y, alpha_0 = 0.2, beta_0 = 1, gama = 1, firefly = 0, min_values = [-5,-5], max_values = [5,5]):
     for j in range(0, len(x)):
-        epson = int.from_bytes(os.urandom(8), byteorder = "big") / ((1 << 64) - 1) - (1/2)
+        epson    = int.from_bytes(os.urandom(8), byteorder = "big") / ((1 << 64) - 1) - (1/2)
         position.iloc[firefly, j] = x.iloc[j] + beta_value(x, y, gama = gama, beta_0 = beta_0)*(y.iloc[j] - x.iloc[j]) + alpha_0*epson
+        if (position.iloc[firefly, j] > max_values[j]):
+            position.iloc[firefly, j] = max_values[j]
+        elif (position.iloc[firefly, j] < min_values[j]):
+            position.iloc[firefly, j] = min_values[j]
     position.iloc[firefly, -1] = target_function(position.iloc[firefly, 0:position.shape[1]-1])
     return position
 
 # FA Function
 def firefly_algorithm(swarm_size = 3, min_values = [-5,-5], max_values = [5,5], generations = 50, alpha_0 = 0.2, beta_0 = 1, gama = 1):
-    population = initial_fireflies(swarm_size = swarm_size , min_values = min_values, max_values = max_values)
+    population = initial_fireflies(swarm_size = swarm_size, min_values = min_values, max_values = max_values)
     count = 0
     while (count <= generations):
         print("Generation: ", count, " of ", generations)
@@ -69,7 +73,7 @@ def firefly_algorithm(swarm_size = 3, min_values = [-5,-5], max_values = [5,5], 
                 ligth_i   = ligth_value(population.iloc[i,-1], firefly_i, firefly_j, gama = gama)
                 ligth_j   = ligth_value(population.iloc[j,-1], firefly_i, firefly_j, gama = gama)
                 if (ligth_i > ligth_j):
-                   population = update_position(population, firefly_i, firefly_j, alpha_0 = alpha_0, beta_0 = beta_0, gama = gama, firefly = i)
+                   population = update_position(population, firefly_i, firefly_j, alpha_0 = alpha_0, beta_0 = beta_0, gama = gama, firefly = i, min_values = min_values, max_values = max_values)
         count = count + 1
     #population = population.sort_values(by=['Ligth_0'])
     best_firefly = population.iloc[population['Ligth_0'].idxmin(),:]
