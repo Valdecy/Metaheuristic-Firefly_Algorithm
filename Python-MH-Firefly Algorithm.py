@@ -75,7 +75,6 @@ def firefly_algorithm(swarm_size = 3, min_values = [-5,-5], max_values = [5,5], 
                 if (ligth_i > ligth_j):
                    population = update_position(population, firefly_i, firefly_j, alpha_0 = alpha_0, beta_0 = beta_0, gama = gama, firefly = i, min_values = min_values, max_values = max_values)
         count = count + 1
-    #population = population.sort_values(by=['Ligth_0'])
     best_firefly = population.iloc[population['Ligth_0'].idxmin(),:]
     return best_firefly
 
